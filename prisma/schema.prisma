@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id          String   @id @default(cuid())
+  username    String   @unique
+  password    String   // hashed password
+  email       String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relation to QRProfile
+  qrProfile   QRProfile?
+}
+
+model QRProfile {
+  id          String   @id @default(cuid())
+  uuid        String   @unique
+  userId      String   @unique
+  name        String?
+  bio         String?
+  avatar      String?
+  instagram   String?
+  twitter     String?
+  tiktok      String?
+  youtube     String?
+  linkedin    String?
+  facebook    String?
+  website     String?
+  qrCode      String?
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relation to User
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
