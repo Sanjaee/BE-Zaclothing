@@ -4,6 +4,7 @@ const QRCode = require("qrcode");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 const prisma = new PrismaClient();
@@ -13,8 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Environment variables untuk URLs
-const BASE_URL =
-  process.env.BASE_URL || `http://localhost:${process.env.PORT || 4000}`;
+const BASE_URL = process.env.BASE_URL || "https://zascript.com";	
 const MOBILE_BASE_URL = process.env.MOBILE_BASE_URL || null; // Optional mobile app URL
 
 // Helper function untuk generate URLs
